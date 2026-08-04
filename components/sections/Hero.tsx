@@ -1,16 +1,21 @@
 "use client";
 
 import { HeroGlobe } from "@/components/animations/HeroGlobe";
+import Iridescence from "@/components/animations/Iridescence";
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden bg-white">
 
       {/* Background Animation */}
-      <div
-        id="hero-background"
-        className="absolute inset-0 -z-10"
-      />
+      <div className="absolute inset-0 -z-10">
+   <Iridescence
+  color={[0.35, 0.55, 0.70]}
+  amplitude={0.06}
+  speed={0.45}
+  mouseReact
+/>
+      </div>
 
       <div className="mx-auto flex min-h-screen max-w-[1700px] items-center justify-between px-16 pt-28 pb-8">
 
@@ -32,11 +37,11 @@ export default function Hero() {
               text-[#1F2933]
             "
           >
-            AI Systems
+            Building
             <br />
-            for Automation,
+            Intelligent
             <br />
-            Apps & Web
+            Digital Systems
           </h1>
 
           <p
@@ -101,7 +106,7 @@ export default function Hero() {
 
         <div className="relative flex w-[52%] items-center justify-center">
 
-          {/* Glow */}
+          {/* Soft Glow */}
 
           <div
             className="
