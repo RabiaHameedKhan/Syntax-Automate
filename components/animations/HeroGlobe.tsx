@@ -152,7 +152,6 @@ export function HeroGlobe({ progress }: HeroGlobeProps) {
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
     >
-      <color attach="background" args={["#f7f9fa"]} />
       <fog attach="fog" args={["#f7f9fa", 4.5, 9]} />
       <SceneLights />
       <Sparkles count={72} scale={5.5} size={1.8} speed={0.22} opacity={0.35} color={ACCENT} />

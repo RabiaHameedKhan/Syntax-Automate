@@ -54,28 +54,18 @@ void main(){
         d+=sin(uv.y*i+a);
     }
 
-    d+=uTime*.5*uSpeed;
+    d += uTime * 0.5 * uSpeed;
 
-    vec3 col=vec3(
-        cos(uv*vec2(d,a))*.6+.4,
-        cos(a+d)*.5+.5
-    );
+    float grey = clamp(0.85 + 0.08 * cos(uv.x * 3.0 + d) + 0.08 * sin(uv.y * 4.0 + a), 0.0, 1.0);
+    vec3 col = vec3(grey);
 
-    col=
-    cos(
-        col*
-        cos(vec3(d,a,2.5))
-        *.35
-        +.65
-    )*uColor;
-
-    gl_FragColor = vec4(col, 0.75);
+    gl_FragColor = vec4(col, 0.55);
 
 }
 `;
 
 export default function Iridescence({
-  color = [0.12, 0.34, 0.42],
+  color = [1, 1, 1],
   speed = 0.42,
   amplitude = 0.04,
   mouseReact = true,
@@ -100,7 +90,7 @@ export default function Iridescence({
 
     const gl = renderer.gl;
 
-    gl.clearColor(1, 1, 1, 0);
+    gl.clearColor(0.9686, 0.9765, 0.9804, 0);
 
     let program: Program;
 
