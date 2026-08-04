@@ -2,10 +2,11 @@
 
 import { HeroGlobe } from "@/components/animations/HeroGlobe";
 import Iridescence from "@/components/animations/Iridescence";
+import BlurText from "@/components/animations/BlurText";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden bg-white">
 
       {/* Background Animation */}
       <div className="absolute inset-0 z-0">
@@ -17,17 +18,19 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1700px] flex-col lg:flex-row items-center justify-between px-6 py-12 lg:px-16 lg:pt-28 lg:pb-8 gap-14">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1700px] flex-col items-center justify-between gap-14 px-6 py-12 lg:flex-row lg:px-16 lg:pt-28 lg:pb-8">
 
         {/* LEFT */}
 
-        <div className="w-full lg:w-[48%] lg:pl-[170px] text-center lg:text-left">
+        <div className="w-full text-center lg:w-[48%] lg:pl-[170px] lg:text-left">
 
           <span className="mb-8 block text-[12px] uppercase tracking-[0.42em] text-[#1E566C]">
             AI Powered Software House
           </span>
 
-          <h1
+          {/* Animated Heading */}
+
+          <div
             className="
               mx-auto
               max-w-[700px]
@@ -38,15 +41,32 @@ export default function Hero() {
               leading-[0.92]
               tracking-[-0.04em]
               font-extralight
-              text-[#1F2933]
             "
           >
-            Building
-            <br />
-            Intelligent
-            <br />
-            Digital Systems
-          </h1>
+            <BlurText
+  text="Building"
+  animateBy="words"
+  direction="top"
+  delay={180}
+  stepDuration={0.8}
+/>
+
+           <BlurText
+  text="Intelligent"
+  animateBy="words"
+  direction="top"
+  delay={280}
+  stepDuration={0.8}
+/>
+
+          <BlurText
+  text="Digital Systems"
+  animateBy="words"
+  direction="top"
+  delay={380}
+  stepDuration={0.8}
+/>
+          </div>
 
           <p
             className="
@@ -54,9 +74,9 @@ export default function Hero() {
               mx-auto
               max-w-[560px]
               text-[16px]
-              sm:text-[18px]
               leading-8
               text-[#5F6B76]
+              sm:text-[18px]
             "
           >
             We build intelligent AI systems, business automation,
@@ -67,19 +87,19 @@ export default function Hero() {
 
             <button
               className="
-                w-full
-                sm:w-auto
                 h-[52px]
-                px-8
+                w-full
                 rounded-xl
                 bg-[#1E566C]
-                text-white
+                px-8
                 text-[13px]
                 font-medium
                 uppercase
                 tracking-[0.16em]
+                text-white
                 transition-all
                 hover:bg-[#174454]
+                sm:w-auto
               "
             >
               Start Project
@@ -88,16 +108,16 @@ export default function Hero() {
             <button
               className="
                 h-[52px]
-                px-8
                 rounded-xl
                 border
                 border-[#D7DEE3]
                 bg-white
-                text-[#1F2933]
+                px-8
                 text-[13px]
                 font-medium
                 uppercase
                 tracking-[0.16em]
+                text-[#1F2933]
                 transition-all
                 hover:border-[#1E566C]
                 hover:text-[#1E566C]
@@ -112,9 +132,9 @@ export default function Hero() {
 
         {/* RIGHT */}
 
-        <div className="relative flex w-full lg:w-[52%] items-center justify-center mt-12 lg:mt-0">
+        <div className="relative mt-12 flex w-full items-center justify-center lg:mt-0 lg:w-[52%]">
 
-          {/* Soft Glow */}
+          {/* Glow */}
 
           <div
             className="
