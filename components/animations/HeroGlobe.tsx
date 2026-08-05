@@ -2,7 +2,7 @@
 
 
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Line, Sparkles } from "@react-three/drei";
 import { type MotionValue } from "framer-motion";
@@ -51,6 +51,8 @@ function CoreAssembly({ progress }: CoreAssemblyProps) {
   const root = useRef<THREE.Group>(null);
   const inner = useRef<THREE.Mesh>(null);
   const scrollRef = useRef(0);
+  const [hovered, setHovered] = useState(false);
+  const hoverRef = useRef(0);
 
   useEffect(() => {
     if (!progress) return;
@@ -64,23 +66,30 @@ function CoreAssembly({ progress }: CoreAssemblyProps) {
     if (!root.current) return;
     const { pointer, clock } = state;
     const scroll = scrollRef.current;
-    root.current.rotation.y += delta * (0.14 + scroll * 0.22);
+
+    hoverRef.current = THREE.MathUtils.lerp(hoverRef.current, hovered ? 1 : 0, 0.08);
+    const hover = hoverRef.current;
+
+    root.current.rotation.y += delta * (0.14 + scroll * 0.22 + hover * 0.55);
     root.current.rotation.x = THREE.MathUtils.lerp(
       root.current.rotation.x,
-      pointer.y * 0.18 + Math.sin(clock.elapsedTime * 0.35) * 0.06 + scroll * 0.28,
-      0.04,
+      pointer.y * (0.18 + hover * 0.35) + Math.sin(clock.elapsedTime * 0.35) * 0.06 + scroll * 0.28,
+      0.06,
     );
     root.current.rotation.z = THREE.MathUtils.lerp(
       root.current.rotation.z,
-      pointer.x * 0.1 - scroll * 0.12,
-      0.04,
+      pointer.x * (0.1 + hover * 0.25) - scroll * 0.12,
+      0.06,
     );
-    const scale = 0.72 + scroll * 0.15;
+
+    root.current.position.y = THREE.MathUtils.lerp(root.current.position.y, hover * 0.12, 0.08);
+
+    const scale = 0.72 + scroll * 0.15 + hover * 0.08;
     root.current.scale.setScalar(scale);
 
     if (inner.current) {
-      inner.current.rotation.y -= delta * (0.22 + scroll * 0.35);
-      inner.current.rotation.x += delta * 0.12;
+      inner.current.rotation.y -= delta * (0.22 + scroll * 0.35 + hover * 0.5);
+      inner.current.rotation.x += delta * (0.12 + hover * 0.2);
     }
   });
 
@@ -92,6 +101,21 @@ function CoreAssembly({ progress }: CoreAssemblyProps) {
 
   return (
     <group ref={root}>
+      <mesh
+        onPointerOver={() => {
+          setHovered(true);
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerOut={() => {
+          setHovered(false);
+          document.body.style.cursor = "auto";
+        }}
+        visible={false}
+      >
+        <sphereGeometry args={[2, 16, 16]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
+
       <Float speed={1.15} rotationIntensity={0.25} floatIntensity={0.45}>
         <mesh ref={inner}>
           <icosahedronGeometry args={[0.95, 1]} />
