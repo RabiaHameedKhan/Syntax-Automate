@@ -7,17 +7,28 @@ import { motion } from "framer-motion";
 
 // Sequencing: the navbar animates in first (~1.1s to fully settle).
 // Hero content then reveals in three stages, one group at a time.
-const NAV_CLEAR = 1.1;      // wait for navbar to finish
-const STAGE_GAP = 0.25;     // breathing room between stages
+const NAV_CLEAR = 1.1;
+const STAGE_GAP = 0.25;
 
-const STAGE_1 = NAV_CLEAR;              // heading + globe
-const STAGE_2 = STAGE_1 + 0.75 + STAGE_GAP;   // subtext
-const STAGE_3 = STAGE_2 + 0.7 + STAGE_GAP;    // buttons
+const STAGE_1 = NAV_CLEAR;
+const STAGE_2 = STAGE_1 + 0.75 + STAGE_GAP;
+const STAGE_3 = STAGE_2 + 0.7 + STAGE_GAP;
 
 export default function Hero() {
   return (
-    <section className="relative h-[100svh] max-h-[100svh] overflow-hidden bg-white">
-
+    <section
+      className="
+        relative
+        min-h-screen
+        overflow-hidden
+        bg-white
+        pt-20
+        sm:pt-24
+        lg:h-[100svh]
+        lg:max-h-[100svh]
+        lg:pt-0
+      "
+    >
       {/* Background Animation */}
       <div className="absolute inset-0 z-0">
         <Iridescence
@@ -28,9 +39,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* Bottom shadow, cast "down" onto the About section so the seam
-          between the two sections reads as one continuous surface rather
-          than a hard cut */}
+      {/* Bottom shadow */}
       <div
         className="
           pointer-events-none
@@ -47,43 +56,95 @@ export default function Hero() {
       />
 
       <div
-        className="relative z-10 mx-auto flex h-full max-w-[1700px] flex-col items-center justify-center gap-4 px-6 py-4 sm:gap-6 sm:py-6 lg:flex-row lg:justify-between lg:gap-14 lg:px-16 lg:pt-24 lg:pb-6"
+        className="
+          relative
+          z-10
+          mx-auto
+          flex
+          min-h-screen
+          max-w-[1700px]
+          flex-col
+          items-center
+          justify-center
+          gap-8
+          px-5
+          py-10
+          sm:px-8
+          sm:py-12
+          md:px-10
+          lg:h-full
+          lg:min-h-0
+          lg:flex-row
+          lg:justify-between
+          lg:gap-14
+          lg:px-16
+          lg:pt-24
+          lg:pb-6
+        "
       >
-
         {/* LEFT */}
 
         <div
-          className="w-full text-center lg:w-[48%] lg:pl-[170px] lg:text-left"
+          className="
+            w-full
+            text-center
+            lg:w-[48%]
+            lg:pl-[120px]
+            xl:pl-[170px]
+            lg:text-left
+          "
         >
-
           <motion.span
-            className="mb-1 block text-[10px] uppercase tracking-[0.32em] text-[#1E566C] sm:mb-2 sm:text-[12px] sm:tracking-[0.42em] lg:mb-4"
+            className="
+              mb-2
+              block
+              text-[10px]
+              uppercase
+              tracking-[0.30em]
+              text-[#1E566C]
+              sm:text-[12px]
+              lg:mb-4
+              lg:tracking-[0.42em]
+            "
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: STAGE_1, ease: "easeOut" }}
+            transition={{
+              duration: 0.6,
+              delay: STAGE_1,
+              ease: "easeOut",
+            }}
           >
             AI Powered Software House
           </motion.span>
 
-          {/* Animated Heading */}
+                    {/* Animated Heading */}
 
           <motion.div
             className="
               mx-auto
               max-w-[700px]
-              text-[30px]
-              sm:text-[42px]
-              md:text-[56px]
-              lg:text-[88px]
-              leading-[0.98]
+              text-[34px]
+              leading-[1]
               tracking-[-0.03em]
-              lg:leading-[0.92]
-              lg:tracking-[-0.04em]
               font-extralight
+              xs:text-[38px]
+              sm:text-[48px]
+              md:text-[60px]
+              lg:mx-0
+              lg:max-w-none
+              lg:text-[78px]
+              lg:leading-[0.94]
+              xl:text-[88px]
+              xl:leading-[0.92]
+              lg:tracking-[-0.04em]
             "
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: STAGE_1 + 0.08, ease: "easeOut" }}
+            transition={{
+              duration: 0.75,
+              delay: STAGE_1 + 0.08,
+              ease: "easeOut",
+            }}
           >
             <BlurText
               text="Building"
@@ -112,53 +173,70 @@ export default function Hero() {
 
           <motion.p
             className="
-              mt-3
               mx-auto
+              mt-4
               max-w-[560px]
-              text-[13px]
-              leading-6
+              text-[14px]
+              leading-7
               text-[#5F6B76]
-              sm:mt-5
               sm:text-[16px]
-              sm:leading-7
+              lg:mx-0
               lg:mt-8
               lg:text-[18px]
               lg:leading-8
             "
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: STAGE_2, ease: "easeOut" }}
+            transition={{
+              duration: 0.7,
+              delay: STAGE_2,
+              ease: "easeOut",
+            }}
           >
             We build intelligent AI systems, business automation,
             modern web applications and premium digital experiences.
           </motion.p>
 
           <motion.div
-            className="mt-4 flex w-full flex-col items-center justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-4 sm:justify-start lg:mt-12"
+            className="
+              mt-8
+              flex
+              w-full
+              flex-col
+              items-center
+              gap-3
+              sm:flex-row
+              sm:justify-center
+              lg:justify-start
+              lg:mt-12
+            "
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: STAGE_3, ease: "easeOut" }}
+            transition={{
+              duration: 0.7,
+              delay: STAGE_3,
+              ease: "easeOut",
+            }}
           >
-
             <button
               className="
-                h-[42px]
+                h-[48px]
                 w-full
+                max-w-[260px]
                 rounded-xl
                 bg-[#1E566C]
-                px-6
-                text-[11px]
+                px-8
+                text-[12px]
                 font-medium
                 uppercase
-                tracking-[0.14em]
+                tracking-[0.16em]
                 text-white
                 transition-all
                 hover:bg-[#174454]
-                sm:h-[52px]
                 sm:w-auto
-                sm:px-8
+                sm:max-w-none
+                sm:h-[52px]
                 sm:text-[13px]
-                sm:tracking-[0.16em]
               "
             >
               Start Project
@@ -166,29 +244,30 @@ export default function Hero() {
 
             <button
               className="
-                h-[42px]
+                h-[48px]
+                w-full
+                max-w-[260px]
                 rounded-xl
                 border
                 border-[#D7DEE3]
                 bg-white
-                px-6
-                text-[11px]
+                px-8
+                text-[12px]
                 font-medium
                 uppercase
-                tracking-[0.14em]
+                tracking-[0.16em]
                 text-[#1F2933]
                 transition-all
                 hover:border-[#1E566C]
                 hover:text-[#1E566C]
+                sm:w-auto
+                sm:max-w-none
                 sm:h-[52px]
-                sm:px-8
                 sm:text-[13px]
-                sm:tracking-[0.16em]
               "
             >
               View Work
             </button>
-
           </motion.div>
 
         </div>
@@ -196,13 +275,26 @@ export default function Hero() {
         {/* RIGHT */}
 
         <motion.div
-          className="relative flex w-full items-center justify-center lg:order-2 lg:mt-0 lg:w-[52%]"
+          className="
+            relative
+            mt-8
+            flex
+            w-full
+            items-center
+            justify-center
+            lg:mt-0
+            lg:w-[52%]
+          "
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: STAGE_1, ease: "easeOut" }}
+          transition={{
+            duration: 0.75,
+            delay: STAGE_1,
+            ease: "easeOut",
+          }}
         >
 
-          {/* Glow */}
+                    {/* Glow */}
 
           <div
             className="
@@ -212,12 +304,16 @@ export default function Hero() {
               rounded-full
               bg-[#1E566C]/10
               blur-[70px]
-              sm:h-[280px]
-              sm:w-[280px]
+              sm:h-[260px]
+              sm:w-[260px]
               sm:blur-[90px]
-              lg:h-[560px]
-              lg:w-[560px]
+              md:h-[360px]
+              md:w-[360px]
+              lg:h-[500px]
+              lg:w-[500px]
               lg:blur-[110px]
+              xl:h-[560px]
+              xl:w-[560px]
             "
           />
 
@@ -226,14 +322,14 @@ export default function Hero() {
           <div
             className="
               relative
-              h-[160px]
-              w-[160px]
-              sm:h-[240px]
-              sm:w-[240px]
-              md:h-[320px]
-              md:w-[320px]
-              lg:h-[520px]
-              lg:w-[520px]
+              h-[220px]
+              w-[220px]
+              sm:h-[300px]
+              sm:w-[300px]
+              md:h-[380px]
+              md:w-[380px]
+              lg:h-[480px]
+              lg:w-[480px]
               xl:h-[560px]
               xl:w-[560px]
             "
@@ -243,8 +339,7 @@ export default function Hero() {
 
         </motion.div>
 
-      </div>
-
+              </div>
     </section>
   );
 }

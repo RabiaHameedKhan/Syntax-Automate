@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import StaggeredMenu from "@/components/animations/StaggeredMenu";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
   "About",
@@ -13,20 +13,6 @@ const navItems = [
   "Process",
   "FAQ",
   "Contact",
-];
-
-// Same nav items, reshaped for StaggeredMenu's { label, ariaLabel, link } API
-const mobileMenuItems = navItems.map((item) => ({
-  label: item,
-  ariaLabel: `Go to ${item}`,
-  link: `#${item.toLowerCase()}`,
-}));
-
-// Placeholder socials — swap for your real profiles
-const mobileSocialItems = [
-  { label: "Twitter", link: "https://twitter.com" },
-  { label: "GitHub", link: "https://github.com" },
-  { label: "LinkedIn", link: "https://linkedin.com" },
 ];
 
 const navContainer = {
@@ -46,6 +32,7 @@ const navItemVariant = {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -56,7 +43,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Desktop navbar — unchanged from lg upward */}
+      {/* Desktop navbar */}
       <motion.header
         initial={{ opacity: 0, y: -24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -65,32 +52,41 @@ export default function Navbar() {
           fixed inset-x-0 top-0 z-50 hidden
           transition-all duration-500
           lg:block
-          ${scrolled
-            ? "bg-white/80 shadow-[0_10px_30px_-15px_rgba(15,23,32,0.15)] backdrop-blur-md"
-            : "bg-transparent"}
+          ${
+            scrolled
+              ? "bg-white/80 shadow-[0_10px_30px_-15px_rgba(15,23,32,0.15)] backdrop-blur-md"
+              : "bg-transparent"
+          }
         `}
       >
         <div
           className={`
-            mx-auto grid h-24 max-w-[1700px] grid-cols-[220px_1fr_220px]
-            items-center px-14 transition-all duration-500
+            mx-auto grid max-w-[1700px]
+            grid-cols-[170px_1fr_170px]
+            xl:grid-cols-[220px_1fr_220px]
+            items-center px-6 xl:px-14
+            transition-all duration-500
             ${scrolled ? "h-20" : "h-24"}
           `}
         >
-
           <motion.div
             initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
           >
             <Link href="/">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
+              <motion.div
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              >
                 <Image
                   src="/logo/logo-white.png"
                   alt="Syntax Automate"
                   width={170}
                   height={52}
                   priority
+                  className="h-auto w-auto xl:w-[170px]"
                 />
               </motion.div>
             </Link>
@@ -102,12 +98,16 @@ export default function Navbar() {
             animate="visible"
             variants={navContainer}
           >
-            <ul className="flex items-center gap-10 xl:gap-14">
+            <ul className="flex items-center gap-6 xl:gap-14">
 
-              {navItems.map((item) => (
-                <motion.li key={item} variants={navItemVariant} transition={{ duration: 0.5, ease: "easeOut" }}>
+                            {navItems.map((item) => (
+                <motion.li
+                  key={item}
+                  variants={navItemVariant}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
                   <a
-                    href="#"
+                    href={`#${item.toLowerCase()}`}
                     className="group relative text-[13px] xl:text-[14px] uppercase tracking-[0.22em] text-[#20252D] transition-colors hover:text-[#1E566C]"
                   >
                     {item}
@@ -115,7 +115,6 @@ export default function Navbar() {
                   </a>
                 </motion.li>
               ))}
-
             </ul>
           </motion.nav>
 
@@ -126,52 +125,118 @@ export default function Navbar() {
             whileHover={{ scale: 1.045, y: -2 }}
             whileTap={{ scale: 0.97 }}
             className="
-              group
-              justify-self-end
-              h-[50px]
-              rounded-xl
+              group justify-self-end
+              h-[50px] rounded-xl
               bg-[#1E566C]
-              px-7
-              text-[13px]
-              uppercase
-              tracking-[0.16em]
+              px-5 xl:px-7
+              text-[13px] uppercase tracking-[0.16em]
               text-white
               shadow-[0_10px_25px_-10px_rgba(30,86,108,0.55)]
               transition-colors
               hover:bg-[#174454]
             "
-            style={{ transition: "background-color 0.3s ease" }}
           >
             <span className="inline-flex items-center gap-2">
               Start Project
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
             </span>
           </motion.button>
-
         </div>
       </motion.header>
 
-      {/* Mobile / tablet navbar — StaggeredMenu, below lg. Colors, accent,
-          logo and header scroll-background are all pulled from the same
-          palette as the desktop nav above so the two feel like one system. */}
-      <div className="lg:hidden">
-        <StaggeredMenu
-          isFixed
-          position="right"
-          items={mobileMenuItems}
-          socialItems={mobileSocialItems}
-          displaySocials
-          displayItemNumbering
-          menuButtonColor="#20252D"
-          openMenuButtonColor="#20252D"
-          changeMenuColorOnOpen={false}
-          colors={["#1E566C", "#153C4B"]}
-          accentColor="#1E566C"
-          logoUrl="/logo/logo-dark.png"
-          scrolled={scrolled}
-          headerScrolledBackground="rgba(255,255,255,0.85)"
-        />
-      </div>
+      {/* Mobile / Tablet Navbar */}
+      <motion.header
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className={`
+          fixed inset-x-0 top-0 z-50 lg:hidden
+          transition-all duration-300
+          ${
+            scrolled
+              ? "bg-white/90 backdrop-blur-md shadow-lg"
+              : "bg-transparent"
+          }
+        `}
+      >
+        <div className="flex h-20 items-center justify-between px-5 sm:px-6">
+          <Link href="/">
+            <Image
+              src="/logo/logo-white.png"
+              alt="Syntax Automate"
+              width={150}
+              height={46}
+              priority
+              className="h-auto w-auto max-w-[150px] sm:max-w-[170px]"
+            />
+          </Link>
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="rounded-lg p-2"
+          >
+            {menuOpen ? (
+              <X size={30} color="#20252D" />
+            ) : (
+              <Menu size={30} color="#20252D" />
+            )}
+          </button>
+        </div>
+
+                <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              className="overflow-hidden bg-white"
+            >
+              <nav className="flex flex-col py-4">
+                {navItems.map((item, index) => (
+                  <motion.a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    onClick={() => setMenuOpen(false)}
+                    className="
+                      border-b border-gray-100
+                      px-6 py-4
+                      text-sm uppercase tracking-[0.18em]
+                      text-[#20252D]
+                      hover:bg-gray-50
+                    "
+                  >
+                    {item}
+                  </motion.a>
+                ))}
+
+                <div className="px-6 pt-5">
+                  <button
+                    onClick={() => setMenuOpen(false)}
+                    className="
+                      w-full rounded-xl
+                      bg-[#1E566C]
+                      py-4
+                      text-sm uppercase tracking-[0.15em]
+                      text-white
+                      hover:bg-[#174454]
+                      transition-colors
+                    "
+                  >
+                    Start Project
+                  </button>
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
     </>
   );
 }
+
