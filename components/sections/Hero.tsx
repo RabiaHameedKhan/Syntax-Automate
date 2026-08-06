@@ -5,10 +5,14 @@ import Iridescence from "@/components/animations/Iridescence";
 import BlurText from "@/components/animations/BlurText";
 import { motion } from "framer-motion";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
+// Sequencing: the navbar animates in first (~1.1s to fully settle).
+// Hero content then reveals in three stages, one group at a time.
+const NAV_CLEAR = 1.1;      // wait for navbar to finish
+const STAGE_GAP = 0.25;     // breathing room between stages
+
+const STAGE_1 = NAV_CLEAR;              // heading + globe
+const STAGE_2 = STAGE_1 + 0.75 + STAGE_GAP;   // subtext
+const STAGE_3 = STAGE_2 + 0.7 + STAGE_GAP;    // buttons
 
 export default function Hero() {
   return (
@@ -24,32 +28,39 @@ export default function Hero() {
         />
       </div>
 
-      <motion.div
+      {/* Bottom shadow, cast "down" onto the About section so the seam
+          between the two sections reads as one continuous surface rather
+          than a hard cut */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-x-0
+          bottom-0
+          z-[5]
+          h-[220px]
+          bg-gradient-to-b
+          from-transparent
+          via-black/[0.03]
+          to-black/[0.09]
+        "
+      />
+
+      <div
         className="relative z-10 mx-auto flex h-full max-w-[1700px] flex-col items-center justify-center gap-4 px-6 py-4 sm:gap-6 sm:py-6 lg:flex-row lg:justify-between lg:gap-14 lg:px-16 lg:pt-24 lg:pb-6"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.12,
-              delayChildren: 0.2,
-            },
-          },
-        }}
       >
 
         {/* LEFT */}
 
-        <motion.div
-          className="order-2 w-full text-center lg:order-1 lg:w-[48%] lg:pl-[170px] lg:text-left"
-          variants={fadeUp}
+        <div
+          className="w-full text-center lg:w-[48%] lg:pl-[170px] lg:text-left"
         >
 
           <motion.span
-            className="mb-2 block text-[10px] uppercase tracking-[0.32em] text-[#1E566C] sm:mb-4 sm:text-[12px] sm:tracking-[0.42em] lg:mb-8"
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-1 block text-[10px] uppercase tracking-[0.32em] text-[#1E566C] sm:mb-2 sm:text-[12px] sm:tracking-[0.42em] lg:mb-4"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: STAGE_1, ease: "easeOut" }}
           >
             AI Powered Software House
           </motion.span>
@@ -70,8 +81,9 @@ export default function Hero() {
               lg:tracking-[-0.04em]
               font-extralight
             "
-            variants={fadeUp}
-            transition={{ duration: 0.75, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: STAGE_1 + 0.08, ease: "easeOut" }}
           >
             <BlurText
               text="Building"
@@ -115,7 +127,7 @@ export default function Hero() {
             "
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: STAGE_2, ease: "easeOut" }}
           >
             We build intelligent AI systems, business automation,
             modern web applications and premium digital experiences.
@@ -125,7 +137,7 @@ export default function Hero() {
             className="mt-4 flex w-full flex-col items-center justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-4 sm:justify-start lg:mt-12"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: STAGE_3, ease: "easeOut" }}
           >
 
             <button
@@ -179,14 +191,15 @@ export default function Hero() {
 
           </motion.div>
 
-        </motion.div>
+        </div>
 
         {/* RIGHT */}
 
         <motion.div
-          className="relative order-1 flex w-full items-center justify-center lg:order-2 lg:mt-0 lg:w-[52%]"
-          variants={fadeUp}
-          transition={{ duration: 0.75, ease: "easeOut" }}
+          className="relative flex w-full items-center justify-center lg:order-2 lg:mt-0 lg:w-[52%]"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, delay: STAGE_1, ease: "easeOut" }}
         >
 
           {/* Glow */}
@@ -230,7 +243,7 @@ export default function Hero() {
 
         </motion.div>
 
-      </motion.div>
+      </div>
 
     </section>
   );

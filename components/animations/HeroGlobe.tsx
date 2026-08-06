@@ -67,10 +67,10 @@ function CoreAssembly({ progress }: CoreAssemblyProps) {
     const { pointer, clock } = state;
     const scroll = scrollRef.current;
 
-    hoverRef.current = THREE.MathUtils.lerp(hoverRef.current, hovered ? 1 : 0, 0.08);
+    hoverRef.current = THREE.MathUtils.lerp(hoverRef.current, hovered ? 1 : 0, hovered ? 0.18 : 0.06);
     const hover = hoverRef.current;
 
-    root.current.rotation.y += delta * (0.14 + scroll * 0.22 + hover * 0.55);
+    root.current.rotation.y += delta * (0.14 + scroll * 0.22 + hover * 3.2);
     root.current.rotation.x = THREE.MathUtils.lerp(
       root.current.rotation.x,
       pointer.y * (0.18 + hover * 0.35) + Math.sin(clock.elapsedTime * 0.35) * 0.06 + scroll * 0.28,
@@ -88,8 +88,8 @@ function CoreAssembly({ progress }: CoreAssemblyProps) {
     root.current.scale.setScalar(scale);
 
     if (inner.current) {
-      inner.current.rotation.y -= delta * (0.22 + scroll * 0.35 + hover * 0.5);
-      inner.current.rotation.x += delta * (0.12 + hover * 0.2);
+      inner.current.rotation.y -= delta * (0.22 + scroll * 0.35 + hover * 2.4);
+      inner.current.rotation.x += delta * (0.12 + hover * 0.9);
     }
   });
 
