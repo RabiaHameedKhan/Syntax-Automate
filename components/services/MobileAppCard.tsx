@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView, type Easing } from "framer-motion";
+import { useRef } from "react";
 
 // ---- Timeline ----
 // Screens slide left, hold, then slide to the next. A 4th "clone" slide
@@ -26,7 +27,14 @@ const times = [
   tf(HOLD * 3 + SLIDE * 3),
 ];
 
-const ease = ["linear", "easeInOut", "linear", "easeInOut", "linear", "easeInOut"];
+const ease: Easing[] = [
+  "linear",
+  "easeInOut",
+  "linear",
+  "easeInOut",
+  "linear",
+  "easeInOut",
+];
 
 const screenX = {
   animate: {
@@ -76,12 +84,27 @@ function OnboardingScreen() {
 }
 
 export default function MobileAppCard() {
+  // Pauses every animation in this card (glow, screen slide, tab dot) when
+  // it's off-screen. Without this, every copy of this card on a page (e.g.
+  // one per row in a services grid) keeps animating even while scrolled out
+  // of view — the combined RAF/paint cost is what causes overall page jank.
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { amount: 0.2, margin: "100px" });
+
   return (
-    <div className="relative flex h-[clamp(320px,60vh,560px)] w-full items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      {/* glow */}
+    <div
+      ref={ref}
+      className="relative flex h-[clamp(320px,60vh,560px)] w-full items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6"
+    >
+      {/* glow — only opacity is animated (not scale). Animating the size of
+          a blurred element forces the browser to redraw the blur every
+          frame, which is one of the most expensive things to animate; a
+          static-size blur with pulsing opacity looks almost identical and
+          is essentially free to composite. */}
       <motion.div
-        animate={{ scale: [1, 1.12, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 5, repeat: Infinity }}
+        animate={inView ? { opacity: [0.2, 0.4, 0.2] } : { opacity: 0.2 }}
+        transition={inView ? { duration: 5, repeat: Infinity } : { duration: 0 }}
+        style={{ willChange: "opacity" }}
         className="pointer-events-none absolute inset-0 bg-[#1E566C]/10 blur-3xl"
       />
 
@@ -110,7 +133,8 @@ export default function MobileAppCard() {
           {/* sliding screens */}
           <div className="relative mt-[4%] flex-1 overflow-hidden">
             <motion.div
-              {...screenX}
+              animate={inView ? screenX.animate : { x: "0%" }}
+              transition={inView ? screenX.transition : { duration: 0 }}
               className="flex h-full"
               style={{ width: `${SLIDES * 100}%`, willChange: "transform" }}
             >
@@ -178,7 +202,8 @@ export default function MobileAppCard() {
               </span>
             ))}
             <motion.div
-              {...dotX}
+              animate={inView ? dotX.animate : { x: "16.67%" }}
+              transition={inView ? dotX.transition : { duration: 0 }}
               style={{ willChange: "transform" }}
               className="pointer-events-none absolute inset-x-0 bottom-[8%] h-[0.3em]"
             >
