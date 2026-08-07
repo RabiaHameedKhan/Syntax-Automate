@@ -17,7 +17,7 @@ const containerAnim = {
   transition: {
     duration: CYCLE,
     repeat: Infinity,
-    ease: "easeInOut",
+    ease: "easeInOut" as const,
     times: [0, t(0.3), t(HOLD_END), t(FADE_END), 1],
   },
 };
@@ -36,7 +36,7 @@ const codeReveal = (start: number, dur = 0.9) => ({
   transition: {
     duration: CYCLE,
     repeat: Infinity,
-    ease: "easeInOut",
+    ease: "easeInOut" as const,
     times: [0, t(start), t(start + dur), 1],
   },
 });
@@ -47,19 +47,19 @@ const previewReveal = (start: number, dur = 0.5) => ({
   transition: {
     duration: CYCLE,
     repeat: Infinity,
-    ease: "easeOut",
+    ease: "easeOut" as const,
     times: [0, t(start), t(start + dur), 1],
   },
 });
 
 export default function WebDevelopmentCard() {
   return (
-    <div className="relative flex h-[520px] w-full flex-col overflow-hidden rounded-[34px] border border-[#24404D]/20 bg-[#0B1116] px-8 py-7 sm:px-10">
+    <div className="relative flex h-auto min-h-[560px] w-full flex-col overflow-hidden rounded-[24px] border border-[#24404D]/20 bg-[#0B1116] px-5 py-6 sm:min-h-[560px] sm:rounded-[34px] sm:px-8 sm:py-7 md:h-[520px] md:min-h-0 lg:px-10">
       {/* Ambient glow */}
       <motion.div
         animate={{ opacity: [0.18, 0.35, 0.18], scale: [1, 1.08, 1] }}
         transition={{ duration: 8, repeat: Infinity }}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1E566C]/20 blur-[140px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1E566C]/20 blur-[100px] sm:h-[420px] sm:w-[420px] sm:blur-[120px] md:h-[520px] md:w-[520px] md:blur-[140px]"
       />
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
@@ -73,12 +73,12 @@ export default function WebDevelopmentCard() {
       />
 
       {/* ================= HEADER ================= */}
-      <div className="relative z-10 flex items-center justify-between">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#7FAEC1]">
+          <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#7FAEC1] sm:text-[11px] sm:tracking-[0.3em]">
             Web Development
           </p>
-          <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-white">
+          <h3 className="mt-1.5 text-base font-semibold tracking-tight text-white sm:text-lg">
             From code to live site
           </h3>
         </div>
@@ -86,9 +86,9 @@ export default function WebDevelopmentCard() {
           <motion.span
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 1.8, repeat: Infinity }}
-            className="h-2 w-2 rounded-full bg-emerald-400"
+            className="h-2 w-2 shrink-0 rounded-full bg-emerald-400"
           />
-          <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.18em] text-[#CBEAF5]">
+          <span className="whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.14em] text-[#CBEAF5] sm:text-[10px] sm:tracking-[0.18em]">
             Full-service team
           </span>
         </div>
@@ -97,22 +97,22 @@ export default function WebDevelopmentCard() {
       {/* ================= WORKSPACE ================= */}
       <motion.div
         {...containerAnim}
-        className="relative z-10 mt-6 flex flex-1 flex-col gap-4 sm:flex-row"
+        className="relative z-10 mt-5 flex flex-1 flex-col gap-4 sm:mt-6 md:flex-row"
       >
         {/* ---- CODE EDITOR PANEL ---- */}
-        <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-[#233A45] bg-[#0E161B] shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)]">
-          <div className="flex items-center gap-2 border-b border-[#1D2E37] bg-[#111A20] px-4 py-2.5">
+        <div className="flex min-h-[220px] flex-1 flex-col overflow-hidden rounded-2xl border border-[#233A45] bg-[#0E161B] shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)]">
+          <div className="flex items-center gap-2 border-b border-[#1D2E37] bg-[#111A20] px-3 py-2 sm:px-4 sm:py-2.5">
             <div className="flex gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[#3A4A52]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#3A4A52]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#3A4A52]" />
             </div>
-            <span className="ml-2 rounded-t border-b border-[#6BB8D1] px-2 py-1 font-mono text-[11px] text-[#CBEAF5]">
+            <span className="ml-2 rounded-t border-b border-[#6BB8D1] px-2 py-1 font-mono text-[10px] text-[#CBEAF5] sm:text-[11px]">
               Hero.tsx
             </span>
           </div>
 
-          <div className="flex-1 px-5 py-5 font-mono text-[12.5px] leading-[1.9]">
+          <div className="flex-1 overflow-x-auto px-4 py-4 font-mono text-[11px] leading-[1.8] sm:px-5 sm:py-5 sm:text-[12.5px] sm:leading-[1.9]">
             <p className="text-[#5EA5C0]">
               function <span className="text-[#8ED8EA]">Hero</span>() {"{"}
             </p>
@@ -162,51 +162,59 @@ export default function WebDevelopmentCard() {
           </div>
         </div>
 
-        {/* Connector */}
-        <div className="relative hidden w-10 items-center justify-center sm:flex">
-          <div className="h-px w-full bg-gradient-to-r from-[#233A45] via-[#3A6274] to-[#233A45]" />
+        {/* Connector — horizontal bar between stacked panels on mobile, vertical bar between side-by-side panels on desktop */}
+        <div className="relative flex h-6 w-full items-center justify-center md:h-auto md:w-10 md:flex-none">
+          {/* mobile: horizontal line, dot travels left/right */}
+          <div className="h-px w-full bg-gradient-to-r from-[#233A45] via-[#3A6274] to-[#233A45] md:hidden" />
           <motion.span
             animate={{ left: ["0%", "100%", "0%"] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute h-2 w-2 -translate-x-1/2 rounded-full bg-[#8ED8EA] shadow-[0_0_10px_rgba(142,216,234,0.8)]"
+            className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8ED8EA] shadow-[0_0_10px_rgba(142,216,234,0.8)] md:hidden"
+          />
+          {/* desktop: vertical line, dot travels up/down */}
+          <div className="hidden h-full w-px bg-gradient-to-b from-[#233A45] via-[#3A6274] to-[#233A45] md:block" />
+          <motion.span
+            animate={{ top: ["0%", "100%", "0%"] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-1/2 hidden h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8ED8EA] shadow-[0_0_10px_rgba(142,216,234,0.8)] md:block"
           />
         </div>
 
         {/* ---- LIVE PREVIEW PANEL ---- */}
-        <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-[#233A45] bg-white shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)]">
-          <div className="flex items-center gap-2 border-b border-[#E7ECEF] bg-[#F6F8F9] px-4 py-2.5">
+        <div className="flex min-h-[220px] flex-1 flex-col overflow-hidden rounded-2xl border border-[#233A45] bg-white shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)]">
+          <div className="flex items-center gap-2 border-b border-[#E7ECEF] bg-[#F6F8F9] px-3 py-2 sm:px-4 sm:py-2.5">
             <div className="flex gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[#E3E8EA]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#E3E8EA]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#E3E8EA]" />
             </div>
-            <div className="ml-2 h-5 flex-1 max-w-[180px] rounded-full border border-[#E3E8EA] bg-white" />
+            <div className="ml-2 h-5 max-w-[180px] flex-1 rounded-full border border-[#E3E8EA] bg-white" />
           </div>
 
-          <div className="flex flex-1 flex-col px-6 py-6">
-            <motion.div {...previewReveal(1.35)} className="flex items-center justify-between">
-              <span className="text-sm font-semibold tracking-tight text-[#0B1116]">
+          <div className="flex flex-1 flex-col px-4 py-4 sm:px-6 sm:py-6">
+            <motion.div {...previewReveal(1.35)} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+              <span className="text-xs font-semibold tracking-tight text-[#0B1116] sm:text-sm">
                 Acme Studio
               </span>
-              <div className="flex gap-4 text-[11px] uppercase tracking-[0.1em] text-[#5C7280]">
+              <div className="flex gap-2 text-[9px] uppercase tracking-[0.08em] text-[#5C7280] sm:gap-4 sm:text-[11px] sm:tracking-[0.1em]">
                 <span>Work</span>
                 <span>About</span>
                 <span>Contact</span>
               </div>
             </motion.div>
 
-            <div className="mt-10 flex flex-1 flex-col justify-center">
+            <div className="mt-6 flex flex-1 flex-col justify-center sm:mt-10">
               <motion.h1
                 {...previewReveal(2.75)}
-                className="text-2xl font-bold leading-tight tracking-tight text-[#0B1116] sm:text-3xl"
+                className="text-xl font-bold leading-tight tracking-tight text-[#0B1116] sm:text-2xl md:text-3xl"
               >
                 Build Something Great
               </motion.h1>
-              <motion.p {...previewReveal(4.15)} className="mt-3 max-w-[280px] text-sm text-[#5C7280]">
+              <motion.p {...previewReveal(4.15)} className="mt-3 max-w-[280px] text-xs text-[#5C7280] sm:text-sm">
                 Custom software, done right.
               </motion.p>
-              <motion.div {...previewReveal(5.55)} className="mt-6">
-                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-[#3A6274] to-[#5EA5C0] px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-white shadow-[0_10px_25px_-8px_rgba(58,98,116,0.6)]">
+              <motion.div {...previewReveal(5.55)} className="mt-5 sm:mt-6">
+                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-[#3A6274] to-[#5EA5C0] px-4 py-2 text-[10px] font-medium uppercase tracking-[0.1em] text-white shadow-[0_10px_25px_-8px_rgba(58,98,116,0.6)] sm:px-5 sm:py-2.5 sm:text-xs">
                   Get Started
                 </span>
               </motion.div>
