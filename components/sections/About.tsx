@@ -1,272 +1,375 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import Iridescence from "@/components/animations/Iridescence";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const stats = [
-  { value: "60+", label: "Projects Delivered" },
-  { value: "8+", label: "Years Of Experience" },
-  { value: "98%", label: "Client Satisfaction" },
-];
-
-const values = [
-  {
-    title: "Our Mission",
-    copy: "To help ambitious teams turn complex ideas into intelligent, reliable software that actually ships.",
-  },
-  {
-    title: "Our Approach",
-    copy: "We pair deep engineering with AI-first thinking, so every system we build gets smarter the longer it runs.",
-  },
-  {
-    title: "Our Craft",
-    copy: "Clean architecture, considered design, and obsessive attention to detail, on every project we take on.",
-  },
-];
+import { motion } from "framer-motion";
+import { Sparkles, Zap, ArrowUpRight } from "lucide-react";
+import RobotAnimation from "@/components/animations/RobotAnimation";
 
 export default function About() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const glowY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
-  const cardsY = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const headingY = useTransform(scrollYProgress, [0, 1], [20, -20]);
-
   return (
     <section
-      ref={sectionRef}
-      className="relative -mt-1 overflow-hidden bg-white pb-24 pt-32 lg:pb-36 lg:pt-40"
+      id="about"
+      className="relative overflow-hidden bg-[radial-gradient(circle_at_25%_15%,#063A42,#02181C_65%)] py-8 sm:py-10 lg:h-screen lg:max-h-[900px] lg:py-8"
     >
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
 
-      {/* Base section gradient sits at the very back */}
-      <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-white via-[#F4F7F8] to-white" />
-
-      {/* Continues the Hero's flowing background so the two sections blend,
-          then fades into the section's own tone above — no hard seam line */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[520px] overflow-hidden opacity-70"
-        style={{
-          maskImage: "linear-gradient(to bottom, black 0%, transparent 85%)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 85%)",
-        }}
-      >
-        <Iridescence color={[1, 1, 1]} amplitude={0.08} speed={0.4} mouseReact={false} />
-      </div>
-
-      {/* Background glow, parallaxed with scroll */}
-      <motion.div
-        style={{ y: glowY }}
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-0
-          z-[1]
-          h-[460px]
-          w-[460px]
-          -translate-x-1/2
-          rounded-full
-          bg-gradient-to-br
-          from-[#1E566C]/25
-          via-[#1E566C]/10
-          to-transparent
-          blur-[120px]
-          sm:h-[560px]
-          sm:w-[560px]
-          lg:h-[680px]
-          lg:w-[680px]
-        "
-      />
-
-      {/* Secondary lower-corner glow for depth */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          bottom-0
-          right-0
-          z-[1]
-          h-[320px]
-          w-[320px]
-          translate-x-1/3
-          translate-y-1/3
-          rounded-full
-          bg-gradient-to-tl
-          from-[#1E566C]/15
-          to-transparent
-          blur-[100px]
-        "
-      />
-
-      <div className="relative z-10 mx-auto max-w-[1700px] px-6 lg:px-16">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          animate={{
+            x: [-80, 70, -80],
+            y: [-40, 50, -40],
+            scale: [1, 1.12, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute left-[-10%] top-[-15%] h-[500px] w-[500px] rounded-full bg-[#22D9CF]/20 blur-[120px]"
+        />
 
         <motion.div
-          className="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-20"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-120px" }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.12,
-                delayChildren: 0.1,
-              },
-            },
+          animate={{
+            x: [70, -60, 70],
+            y: [30, -40, 30],
+            scale: [1, 0.9, 1],
           }}
-        >
+          transition={{
+            duration: 24,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute bottom-[-20%] right-[-10%] h-[600px] w-[600px] rounded-full bg-[#12A9AE]/30 blur-[140px]"
+        />
 
-          {/* LEFT */}
+        <motion.div
+          animate={{
+            opacity: [0.2, 0.45, 0.2],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute left-[45%] top-[35%] h-[300px] w-[300px] rounded-full bg-[#6EEFE6]/15 blur-[100px]"
+        />
 
-          <motion.div
-            style={{ y: headingY }}
-            className="w-full text-center lg:text-left"
-          >
+        {/* ambient circles */}
 
-            <motion.span
-              className="mb-4 block text-[12px] uppercase tracking-[0.42em] text-[#1E566C] lg:mb-8"
-              variants={fadeUp}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              Who We Are
-            </motion.span>
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{
+            duration: 55,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute -left-[150px] top-[25%] h-[350px] w-[350px] rounded-full border border-[#8FEFE9]/15"
+        />
 
-            <motion.h2
-              className="
-                mx-auto
-                max-w-[620px]
-                text-[36px]
-                sm:text-[48px]
-                md:text-[58px]
-                lg:mx-0
-                lg:text-[64px]
-                leading-[1.02]
-                tracking-[-0.03em]
-                font-extralight
-                text-[#1F2933]
-              "
-              variants={fadeUp}
-              transition={{ duration: 0.75, ease: "easeOut" }}
-            >
-              Engineers Of <span className="text-[#1E566C]">Intelligent</span> Digital Systems
-            </motion.h2>
-
-            <motion.p
-              className="
-                mt-6
-                mx-auto
-                max-w-[540px]
-                text-[16px]
-                leading-8
-                text-[#5F6B76]
-                sm:text-[18px]
-                lg:mx-0
-                lg:mt-8
-              "
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-            >
-              Syntax Automate is an AI powered software house. We design and
-              build intelligent AI systems, business automation, and modern
-              web applications for teams who want to move faster without
-              cutting corners. Every product we ship is built to think,
-              adapt, and scale alongside the businesses that rely on it.
-            </motion.p>
-
-            {/* Stats */}
-
-            <motion.div
-              className="
-                mt-10
-                grid
-                grid-cols-3
-                gap-6
-                rounded-2xl
-                bg-gradient-to-br
-                from-[#1E566C]
-                via-[#204F63]
-                to-[#153C4B]
-                p-6
-                shadow-[0_25px_60px_-20px_rgba(30,86,108,0.55)]
-                sm:gap-8
-                sm:p-8
-                lg:mt-14
-              "
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: { staggerChildren: 0.1, delayChildren: 0.3 },
-                },
-              }}
-            >
-              {stats.map((stat) => (
-                <motion.div key={stat.label} variants={fadeUp} transition={{ duration: 0.6, ease: "easeOut" }}>
-                  <div className="text-[26px] font-extralight text-white sm:text-[32px]">
-                    {stat.value}
-                  </div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/70 sm:text-[12px]">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-          </motion.div>
-
-          {/* RIGHT */}
-
-          <motion.div
-            style={{ y: cardsY }}
-            className="flex flex-col gap-5"
-          >
-            {values.map((item) => (
-              <motion.div
-                key={item.title}
-                variants={fadeUp}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="
-                  group
-                  rounded-2xl
-                  border
-                  border-[#D7DEE3]
-                  bg-gradient-to-b
-                  from-white
-                  to-[#F4F7F8]
-                  p-7
-                  shadow-[0_15px_40px_-20px_rgba(30,86,108,0.25)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-[#1E566C]
-                  hover:shadow-[0_25px_50px_-15px_rgba(30,86,108,0.35)]
-                  lg:p-8
-                "
-              >
-                <h3 className="text-[18px] tracking-[-0.01em] text-[#1F2933] sm:text-[20px]">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-[14px] leading-7 text-[#5F6B76] sm:text-[15px]">
-                  {item.copy}
-                </p>
-                <div className="mt-5 h-px w-10 bg-[#D7DEE3] transition-all duration-300 group-hover:w-16 group-hover:bg-[#1E566C]" />
-              </motion.div>
-            ))}
-          </motion.div>
-
-        </motion.div>
-
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{
+            duration: 65,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute -right-[170px] bottom-[5%] h-[400px] w-[400px] rounded-full border border-[#8FEFE9]/15"
+        />
       </div>
 
+      {/* =====================================================
+          MAIN CONTAINER
+      ===================================================== */}
+
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1160px] flex-col px-5 sm:px-7 lg:px-8">
+
+        {/* Section label */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-3 flex shrink-0 items-center gap-3"
+        >
+          <span className="h-px w-7 bg-[#9CF4EC]/70" />
+
+          <span className="text-[9px] font-semibold uppercase tracking-[0.32em] text-[#9CF4EC]">
+            About Syntax Automate
+          </span>
+        </motion.div>
+
+        {/* =====================================================
+            ROBOK-STYLE ASYMMETRIC LAYOUT
+        ===================================================== */}
+
+        <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[1.28fr_0.72fr]">
+
+          {/* =================================================
+              LARGE LEFT CARD
+          ================================================= */}
+
+          <motion.div
+            initial={{ opacity: 0, x: -35 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.8,
+              ease: "easeOut",
+            }}
+            className="relative flex min-h-0 flex-col overflow-hidden rounded-[26px] border border-black/10 bg-[linear-gradient(150deg,#E7ECEF,#C9D3D8)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_25px_60px_rgba(0,0,0,0.3)] sm:p-7 lg:p-8"
+          >
+            {/* card ambient glow */}
+
+            <div className="pointer-events-none absolute bottom-[-130px] left-[-80px] h-[300px] w-[300px] rounded-full bg-[#0F6A72]/10 blur-[100px]" />
+
+            <div className="pointer-events-none absolute right-[-100px] top-[-100px] h-[260px] w-[260px] rounded-full bg-[#0F6A72]/10 blur-[100px]" />
+
+            {/* top badge */}
+
+            <div className="relative z-10 flex shrink-0 items-center gap-3">
+
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/10 bg-white/60">
+                <Sparkles
+                  size={14}
+                  className="text-[#0F6A72]"
+                />
+              </div>
+
+              <span className="rounded-full border border-black/10 bg-white/60 px-3 py-1.5 text-[8px] font-semibold uppercase tracking-[0.25em] text-black">
+                Who We Are
+              </span>
+
+            </div>
+
+            {/* Main content */}
+
+            <div className="relative z-10 flex flex-1 flex-col justify-center py-3">
+
+              <h2 className="text-[34px] font-light leading-[1.05] tracking-[-0.04em] text-black sm:text-[42px] lg:text-[46px]">
+                We turn complex
+                <br />
+                ideas into
+                <br />
+                <span className="text-[#0F6A72]">
+                  intelligent systems.
+                </span>
+              </h2>
+
+              <p className="mt-4 max-w-[560px] text-[13px] leading-6 text-black/70 sm:text-[14px]">
+                Syntax Automate builds modern digital products,
+                AI-powered workflows and scalable software systems
+                that help businesses work smarter and move faster.
+              </p>
+
+            </div>
+
+            {/* Bottom feature cards */}
+
+            <div className="relative z-10 grid shrink-0 grid-cols-3 gap-2.5">
+
+              <div className="rounded-xl border border-black/10 bg-white/55 px-4 py-2.5">
+                <div className="text-[12px] font-semibold text-black">
+                  AI
+                </div>
+
+                <div className="mt-1 text-[7px] uppercase tracking-[0.22em] text-black/55">
+                  First
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-black/10 bg-white/55 px-4 py-2.5">
+                <div className="text-[12px] font-semibold text-black">
+                  Automation
+                </div>
+
+                <div className="mt-1 text-[7px] uppercase tracking-[0.22em] text-black/55">
+                  Workflows
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-black/10 bg-white/55 px-4 py-2.5">
+                <div className="text-[12px] font-semibold text-black">
+                  Scalable
+                </div>
+
+                <div className="mt-1 text-[7px] uppercase tracking-[0.22em] text-black/55">
+                  Systems
+                </div>
+              </div>
+
+            </div>
+
+            {/* Large background word */}
+
+            <div className="pointer-events-none absolute bottom-[-20px] left-8 select-none text-[90px] font-bold leading-none tracking-[-0.08em] text-black/[0.04] sm:text-[110px]">
+              SYNTAX
+            </div>
+
+          </motion.div>
+
+          {/* =================================================
+              RIGHT COLUMN — TWO STACKED CARDS
+          ================================================= */}
+
+          <div className="grid min-h-0 gap-4 lg:grid-rows-[0.95fr_1.05fr]">
+
+            {/* =============================================
+                TOP — ROBOT ANIMATION
+            ============================================= */}
+
+            <motion.div
+              initial={{ opacity: 0, y: -25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.75,
+                delay: 0.15,
+              }}
+              className="relative flex min-h-0 items-center justify-center overflow-hidden rounded-[26px] border border-black/10 bg-[linear-gradient(150deg,#E7ECEF,#C9D3D8)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_20px_50px_rgba(0,0,0,0.25)]"
+            >
+
+              {/* top label */}
+
+              <div className="absolute left-4 top-4 z-20">
+                <span className="rounded-full border border-black/10 bg-white/60 px-3 py-1.5 text-[7px] font-semibold uppercase tracking-[0.25em] text-black">
+                  Intelligent Systems
+                </span>
+              </div>
+
+              {/* live */}
+
+              <div className="absolute right-4 top-4 z-20 flex items-center gap-1.5 rounded-full border border-black/10 bg-white/60 px-3 py-1.5">
+
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#0F6A72]" />
+
+                <span className="text-[7px] uppercase tracking-[0.2em] text-black">
+                  Live
+                </span>
+
+              </div>
+
+              {/* Actual animation card */}
+
+              <div className="relative z-10 flex shrink-0 items-center justify-center">
+                <RobotAnimation />
+              </div>
+
+            </motion.div>
+
+            {/* =============================================
+                BOTTOM — WHAT WE BUILD
+            ============================================= */}
+
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.75,
+                delay: 0.25,
+              }}
+              className="relative flex min-h-0 flex-col overflow-hidden rounded-[26px] border border-black/10 bg-[linear-gradient(150deg,#E7ECEF,#C9D3D8)] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_20px_50px_rgba(0,0,0,0.28)] sm:p-6"
+            >
+
+              {/* ambient glow */}
+
+              <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#0F6A72]/10 blur-[70px]" />
+
+              {/* heading */}
+
+              <div className="relative z-10 flex shrink-0 items-start justify-between gap-4">
+
+                <div>
+
+                  <span className="text-[8px] font-semibold uppercase tracking-[0.3em] text-[#0F6A72]">
+                    What We Build
+                  </span>
+
+                  <h3 className="mt-2 text-[19px] font-light leading-[1.15] tracking-[-0.03em] text-black sm:text-[21px]">
+                    AI that connects.
+                    <br />
+                    <span className="text-[#0F6A72]">
+                      Automation that works.
+                    </span>
+                  </h3>
+
+                </div>
+
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-black/10 bg-white/60">
+                  <Zap
+                    size={14}
+                    className="text-[#0F6A72]"
+                  />
+                </div>
+
+              </div>
+
+              {/* process line */}
+
+              <div className="relative z-10 mt-4 flex shrink-0 items-center">
+
+                <div className="flex items-center gap-2 rounded-full border border-black/10 bg-white/55 px-3 py-1.5">
+                  <Sparkles
+                    size={10}
+                    className="text-[#0F6A72]"
+                  />
+
+                  <span className="text-[9px] font-medium text-black">
+                    AI
+                  </span>
+                </div>
+
+                <div className="mx-2 h-px flex-1 bg-black/15" />
+
+                <div className="rounded-full border border-black/10 bg-white/55 px-3 py-1.5">
+                  <span className="text-[9px] font-medium text-black">
+                    Workflow
+                  </span>
+                </div>
+
+                <div className="mx-2 h-px flex-1 bg-black/15" />
+
+                <div className="rounded-full border border-black/10 bg-white/55 px-3 py-1.5">
+                  <span className="text-[9px] font-medium text-black">
+                    Action
+                  </span>
+                </div>
+
+              </div>
+
+              {/* divider */}
+
+              <div className="relative z-10 my-3 h-px shrink-0 bg-black/10" />
+
+              {/* description */}
+
+              <div className="relative z-10 flex flex-1 flex-col justify-end gap-3">
+
+                <p className="max-w-[390px] text-[11px] leading-5 text-black/70 sm:text-[12px]">
+                  We integrate AI into existing products and automate
+                  repetitive processes so your systems can do more with
+                  less manual work.
+                </p>
+
+                <button className="group flex w-fit shrink-0 items-center gap-2 text-[9px] font-semibold text-[#0F6A72] transition-colors hover:text-black">
+                  Explore capabilities
+
+                  <ArrowUpRight
+                    size={12}
+                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </button>
+
+              </div>
+
+            </motion.div>
+
+          </div>
+
+        </div>
+      </div>
     </section>
   );
 }
