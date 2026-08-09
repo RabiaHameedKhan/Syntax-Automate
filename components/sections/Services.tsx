@@ -532,51 +532,7 @@ export default function Services() {
         </motion.div>
 
                 {/* ===================================================== */}
-        {/* CTA */}
-        {/* ===================================================== */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 70 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-          className="mt-32 overflow-hidden rounded-[42px] bg-[#1E566C] px-16 py-20 text-center text-white"
-        >
-
-          <span className="text-[12px] uppercase tracking-[0.35em] text-white/70">
-
-            READY TO BUILD?
-
-          </span>
-
-          <h2 className="mx-auto mt-6 max-w-[900px] text-[64px] font-extralight leading-[1.05] tracking-[-0.05em]">
-
-            Let's create software
-            <br />
-            that grows your business.
-
-          </h2>
-
-          <p className="mx-auto mt-8 max-w-[700px] text-[20px] leading-9 text-white/75">
-
-            Whether it's AI automation, custom software,
-            enterprise systems or premium digital experiences,
-            we're ready to build your next competitive advantage.
-
-          </p>
-
-          <button className="group mx-auto mt-14 flex items-center gap-3 rounded-xl bg-white px-9 py-4 text-[#1E566C] transition-all duration-300 hover:scale-105">
-
-            Start Your Project
-
-            <ArrowUpRight
-              size={18}
-              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-
-          </button>
-
-        </motion.div>
+       
 
       </div>
     </section>
