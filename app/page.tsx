@@ -2,7 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
-import Services from  "@/components/sections/Services";
+// import Services from  "@/components/sections/Services";
 import Process from "@/components/sections/Process";
 import CTA from "@/components/sections/CTA";
 import Footer from "@/components/layout/Footer";
@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
       <About />
       <Projects/>
-      <Services/>
+      
       <Process/>
       <CTA/>
       <Footer/>
